@@ -7,10 +7,11 @@ package calculadora;
 
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import javax.swing.JButton;
@@ -28,7 +29,7 @@ public class Calculadora extends JFrame {
         new Calculadora();
     }
      
- private Dimension tamV = new Dimension(100,100);
+ private Dimension tamV = new Dimension(50,50);
      
     private  JLabel pantalla = new JLabel("");
     private JPanel laybotones = new JPanel(new GridLayout(4,4));
@@ -46,12 +47,12 @@ public class Calculadora extends JFrame {
      
         private double resultado = 0;
         private double num;
-        private static int suma = 1;
-        private static int resta = 2;
-        private static int multi = 3;
-        private static int div = 4;
-        private static int C = 0;
-        private int operador = Calculadora.C;
+         static final int suma = 1;
+         static final int resta = 2;
+         static final int multi = 3;
+         static final int div = 4;
+         static final int igual = 0;
+        private int operador = Calculadora.igual;
         private boolean punto = false;
         private boolean nuevonum = true;
         private NumberFormat formato = NumberFormat.getInstance();
@@ -82,12 +83,114 @@ public class Calculadora extends JFrame {
             this.add(layigual,BorderLayout.SOUTH);
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setVisible(true);
-            pantalla.setText("0");
+            pantalla.setText("0,0");
             pantalla.setHorizontalAlignment(JLabel.RIGHT);
             
         }
         
-     public void operacion(int signo){
+     
+         
+        
+
+        
+    
+
+class Raton implements ActionListener{
+     
+     public void actionPerformed(ActionEvent e) {
+         Calculadora calc = new Calculadora();
+         JButton origen = (JButton) e.getSource();
+         String texto = origen.getText();
+         
+         switch(texto){
+             case"+" : 
+                operacion(Calculadora.suma) ;
+                break;
+             
+             case"-" :
+                 operacion(Calculadora.resta);
+                 break;
+             
+              case"*":
+                  operacion(Calculadora.multi);
+                  break;
+               
+              case"/":
+                  operacion(Calculadora.div);
+                  break;
+              
+              case",":
+                  if(!nuevonum){
+                      if(!punto){
+                        String  resultado = pantalla.getText();
+                        pantalla.setText(resultado+",");
+                      }else{
+                          pantalla.setText("0,");
+                          nuevonum=false;
+                      } 
+                      punto=true;
+                      break;
+                  }
+                
+              case "C":
+                  pantalla.setText("0,0");
+                  nuevonum=true;
+                  punto=false;
+                  break;
+              
+              case "=":
+                  if(operador!= Calculadora.igual){
+                      String resultado = pantalla.getText();
+                      if(!resultado.isEmpty()){
+                          Number n =  null;
+                          try{
+                              n=(Number) formato.parse(resultado);
+                              num= n.doubleValue();
+                          }catch(ParseException ex){
+                              num = 0;  
+                      }
+                        switch(operador){
+                        case Calculadora.suma:
+                         resultado += num;
+                         break;
+                     case Calculadora.resta:
+                         double doble = Double.parseDouble(resultado);
+                         doble -= num;
+                         break;
+                     case Calculadora.multi:
+                    doble = Double.parseDouble(resultado);
+                         doble *= num;
+                         break;
+                     case Calculadora.div:
+                  doble = Double.parseDouble(resultado);
+                         doble /= num;
+                         break;
+                     default :
+                    doble = Double.parseDouble(resultado);      
+                          doble = num;
+                          break;
+                        }
+                        operador = Calculadora.igual;
+                        pantalla.setText(formato.format(resultado));
+                      }
+                  }
+                  break;
+              default :
+                  String resultado = pantalla.getText();
+                  if(nuevonum){
+                      pantalla.setText(texto);  
+                  }else{
+                      pantalla.setText(resultado+texto);
+                  }
+                  nuevonum=false;
+                  break;     
+         }
+         
+     }
+}
+    
+   
+    public void operacion(int signo){
          if(!nuevonum){
              String resultado = pantalla.getText();
              if(!resultado.isEmpty()){
@@ -103,25 +206,30 @@ public class Calculadora extends JFrame {
                          resultado += num;
                          break;
                      case Calculadora.resta:
-                         resultado -= num;
+                  double doble = Double.parseDouble(resultado);
+                         doble -= num;
                          break;
                      case Calculadora.multi:
-                         resultado *= num;
+                    doble = Double.parseDouble(resultado);
+                         doble *= num;
                          break;
                      case Calculadora.div:
-                         resultado /= num;
+                    doble = Double.parseDouble(resultado);
+                         doble /= num;
                          break;
                      default :
-                         resultado= num;
+                     doble = Double.parseDouble(resultado);    
+                        doble = num;
+                         
                  }
+                 operador = signo;
+                 pantalla.setText(formato.format(resultado));
+                 nuevonum = true;
+                 punto = false;
              }
          }
-     }   
+    }  
        
-         
-        
+}
 
-        
-    }
-    
 
