@@ -5,32 +5,33 @@
  */
 package daos;
 
-import Interfaces.InterfaceDaoProfesor;
-import Entidades.Profesor;
-import daos.Dao;
+import Entidades.Alumno;
+import Interfaces.InterfaceDaoAlumno;
 import java.util.ArrayList;
+import daos.Dao;
 
 /**
  *
  * @author usuario
  */
-public class DaoProfesor extends Dao implements InterfaceDaoProfesor{
+public class DaoAlumno extends Dao implements InterfaceDaoAlumno {
 
     @Override
-    public Profesor buscarProfesor(int idProfesor) {
+    public Alumno buscarAlumno(int idAlumno) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<Profesor> buscarProfesores() {
+    public ArrayList<Alumno> buscarAlumnos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean addProfesor(Profesor p) {
-        
-       profesores.add(p);
-        return true;
+    public boolean addAlumno(Alumno a) {
+  
+    alumnos.add(a);
+    return true;
     }
 
+   
 }

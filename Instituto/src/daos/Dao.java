@@ -5,6 +5,9 @@
  */
 package daos;
 
+import Entidades.Alumno;
+import Entidades.Incidencia;
+import Entidades.Parte;
 import Entidades.Profesor;
 import java.util.ArrayList;
 
@@ -14,4 +17,7 @@ import java.util.ArrayList;
  */
 public class Dao {
     ArrayList<Profesor> profesores = new ArrayList<>();
+    ArrayList<Alumno> alumnos = new ArrayList<>();
+    ArrayList<Parte> partes = new ArrayList<>();
+    ArrayList<Incidencia> incidencias = new ArrayList<>();
 }
